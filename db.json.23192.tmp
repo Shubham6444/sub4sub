@@ -1,0 +1,26 @@
+{
+  "channels": [
+    {
+      "channelId": "UCB4gLXUL3SvZ1mPM6tspOkA",
+      "handle": "@SwagTantra",
+      "kind": "featured",
+      "addedAt": 0
+    },
+    {
+      "channelId": "UCp76ZVad83CZqSLPLAkIuew",
+      "kind": "member",
+      "addedAt": 1791830509071
+    },
+    {
+      "channelId": "UCUUleh76u-YRbESFid2EPTw",
+      "kind": "member",
+      "addedAt": 1791831106043
+    }
+  ],
+  "apiLog": {
+    "count": 22,
+    "lastAt": "2026-10-12T18:56:10.679Z",
+    "lastMethod": "GET",
+    "lastPath": "/youtube/v3/subscriptions?part=snippet"
+  }
+}
