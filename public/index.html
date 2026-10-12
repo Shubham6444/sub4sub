@@ -1,0 +1,1947 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#111126" />
+    <title>VibeTube Studio</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #10101b;
+        --panel: #191929;
+        --panel2: #222238;
+        --line: #34344d;
+        --text: #f7f7ff;
+        --muted: #a7a7c0;
+        --pink: #ff4d91;
+        --orange: #ff9a4d;
+        --violet: #8a6cff;
+        --cyan: #4dd9e8;
+        --good: #51d6a4;
+        --bad: #ff647c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 12% -15%, #342459 0, transparent 42%),
+          radial-gradient(ellipse at 95% 5%, #153b50 0, transparent 35%),
+          var(--bg);
+        background-attachment: fixed;
+        color: var(--text);
+        font:
+          14px Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+        color: inherit;
+      }
+      a {
+        color: inherit;
+      }
+      header {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 0 clamp(14px, 4vw, 52px);
+        border-bottom: 1px solid #ffffff14;
+        position: sticky;
+        top: 0;
+        background: #111121dd;
+        backdrop-filter: blur(18px);
+        z-index: 8;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-size: 19px;
+        font-weight: 850;
+        white-space: nowrap;
+        letter-spacing: -0.5px;
+      }
+      .brand-name {
+        background: linear-gradient(100deg, #fff 30%, #b9a9ff);
+        color: transparent;
+        background-clip: text;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 13px;
+        background: linear-gradient(135deg, var(--pink), var(--orange));
+        display: grid;
+        place-items: center;
+        box-shadow: 0 5px 20px #ff4d9155;
+      }
+      .logo:after {
+        content: "";
+        border-left: 11px solid white;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        margin-left: 3px;
+      }
+      .search {
+        max-width: 640px;
+        flex: 1;
+        display: flex;
+        margin: auto;
+      }
+      .search input {
+        flex: 1;
+        min-width: 0;
+        background: #ffffff0b;
+        border: 1px solid #ffffff20;
+        border-radius: 15px 0 0 15px;
+        padding: 12px 16px;
+        color: white;
+        outline: 0;
+      }
+      .search input:focus {
+        border-color: #a892ff;
+      }
+      .search button {
+        background: linear-gradient(135deg, #6f56df, #aa62db);
+        border: 0;
+        border-radius: 0 15px 15px 0;
+        padding: 0 20px;
+        font-size: 18px;
+      }
+      .right {
+        margin-left: auto;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .pill,
+      .icon-btn {
+        background: #ffffff12;
+        border: 1px solid #ffffff1c;
+        color: white;
+        border-radius: 13px;
+        padding: 10px 15px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .pill:hover,
+      .icon-btn:hover,
+      .small:hover {
+        filter: brightness(1.16);
+        transform: translateY(-1px);
+      }
+      .pill.primary {
+        background: linear-gradient(115deg, var(--pink), #ff8555);
+        border: 0;
+        color: #fff;
+        box-shadow: 0 7px 22px #ff4d9130;
+      }
+      .pill.violet {
+        background: linear-gradient(115deg, #705be8, #a55fe1);
+        border: 0;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 230px minmax(0, 1fr);
+        min-height: calc(100vh - 70px);
+      }
+      aside {
+        padding: 24px 14px;
+        border-right: 1px solid #ffffff12;
+        position: sticky;
+        top: 70px;
+        height: calc(100vh - 70px);
+      }
+      .nav {
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+        padding: 13px 14px;
+        border-radius: 13px;
+        color: #babbd4;
+        cursor: pointer;
+        display: flex;
+        gap: 13px;
+        align-items: center;
+        margin: 3px 0;
+      }
+      .nav:hover,
+      .nav.active {
+        background: linear-gradient(110deg, #ff4d911c, #9672ff20);
+        color: white;
+      }
+      .nav.active {
+        box-shadow: inset 3px 0 var(--pink);
+      }
+      .nav .ico {
+        font-size: 18px;
+        width: 22px;
+        text-align: center;
+      }
+      .nav-section {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #71718e;
+        padding: 20px 14px 6px;
+      }
+      .aside-note {
+        position: absolute;
+        bottom: 18px;
+        left: 14px;
+        right: 14px;
+        color: #777792;
+        font-size: 11px;
+        line-height: 1.55;
+      }
+      main {
+        width: 100%;
+        max-width: 1450px;
+        padding: 32px clamp(18px, 4vw, 54px) 80px;
+        margin: 0 auto;
+      }
+      .heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 24px;
+      }
+      .heading h1 {
+        font-size: clamp(23px, 3vw, 31px);
+        margin: 0;
+        font-weight: 800;
+        letter-spacing: -0.7px;
+      }
+      .sub {
+        color: var(--muted);
+        margin-top: 7px;
+      }
+      .card {
+        background: linear-gradient(145deg, #202038ee, #171726ee);
+        border: 1px solid #ffffff16;
+        border-radius: 19px;
+        padding: 20px;
+        box-shadow: 0 12px 35px #0002;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        position: relative;
+        overflow: hidden;
+        min-height: 130px;
+        background: linear-gradient(110deg, #48244b, #25254b 56%, #16404a);
+      }
+      .hero:after {
+        content: "";
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: #ff70a422;
+        filter: blur(2px);
+        right: 8%;
+        top: -150px;
+      }
+      .avatar {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: #30304a;
+        object-fit: cover;
+        border: 3px solid #ffffff30;
+        z-index: 1;
+      }
+      .hero-copy {
+        z-index: 1;
+      }
+      .hero h2 {
+        margin: 0 0 8px;
+        font-size: 22px;
+      }
+      .stats {
+        display: flex;
+        gap: 20px;
+        color: #c7c7d9;
+        flex-wrap: wrap;
+      }
+      .stats strong {
+        color: #fff;
+      }
+      .hero-link {
+        margin-left: auto;
+        z-index: 1;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        overflow: auto;
+        margin: 25px 0 20px;
+        padding: 4px 0;
+      }
+      .tab {
+        white-space: nowrap;
+        padding: 10px 15px;
+        color: #adadc3;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        background: transparent;
+      }
+      .tab.active {
+        color: white;
+        background: linear-gradient(110deg, #ff4d9127, #8a6cff25);
+        border-color: #b891ff40;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+        gap: 18px;
+      }
+      .video {
+        overflow: hidden;
+        padding: 0;
+        transition:
+          0.18s transform,
+          0.18s border-color;
+      }
+      .video:hover {
+        transform: translateY(-3px);
+        border-color: #8f72ff66;
+      }
+      .thumb-wrap {
+        position: relative;
+        cursor: pointer;
+        background: #29293e;
+        overflow: hidden;
+      }
+      .thumb {
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        display: block;
+      }
+      .duration {
+        position: absolute;
+        right: 9px;
+        bottom: 9px;
+        background: #080810da;
+        border-radius: 6px;
+        padding: 3px 6px;
+        font-size: 11px;
+        font-weight: 750;
+      }
+      .play-overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: #09091a22;
+        opacity: 0;
+        transition: 0.18s;
+      }
+      .thumb-wrap:hover .play-overlay {
+        opacity: 1;
+      }
+      .play-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--pink), var(--orange));
+        display: grid;
+        place-items: center;
+        font-size: 19px;
+        padding-left: 3px;
+        box-shadow: 0 5px 20px #0006;
+      }
+      .video-body {
+        padding: 14px;
+      }
+      .video-title {
+        font-weight: 750;
+        line-height: 1.4;
+        min-height: 39px;
+        cursor: pointer;
+      }
+      .meta {
+        color: #a7a7bf;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .actions {
+        display: flex;
+        gap: 7px;
+        margin-top: 13px;
+        flex-wrap: wrap;
+      }
+      .small {
+        font-size: 12px;
+        background: #ffffff10;
+        border: 1px solid #ffffff14;
+        color: #eee;
+        border-radius: 10px;
+        padding: 8px 10px;
+        transition: 0.15s;
+      }
+      .small.liked {
+        background: #a579ff30;
+        border-color: #a579ff70;
+        color: #d7caff;
+      }
+      .small.subscribed {
+        background: #52d6a41e;
+        color: #93f0cb;
+        border-color: #51d6a455;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 30px;
+        padding: 5px 9px;
+        background: #a578ff22;
+        color: #d7cbff;
+        font-size: 10px;
+        font-weight: 800;
+        margin-top: 7px;
+      }
+      .empty {
+        text-align: center;
+        padding: 56px 20px;
+        color: #b0b0c7;
+        grid-column: 1/-1;
+      }
+      .empty-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+      }
+      .panel-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .field {
+        margin: 14px 0;
+      }
+      .field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #c7c7db;
+        font-size: 13px;
+        font-weight: 650;
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        background: #10101b;
+        border: 1px solid #393951;
+        color: white;
+        border-radius: 11px;
+        padding: 12px 13px;
+        width: 100%;
+        outline: 0;
+      }
+      .field input:focus,
+      .field textarea:focus,
+      .field select:focus {
+        border-color: #9a80ff;
+        box-shadow: 0 0 0 3px #9478ff20;
+      }
+      .field textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .hint {
+        color: #9292ad;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .notice {
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: #ff647c16;
+        border: 1px solid #ff647c40;
+        color: #ffc1cb;
+        margin: 14px 0;
+      }
+      .success {
+        background: #51d6a416;
+        border-color: #51d6a440;
+        color: #a7f2d3;
+      }
+      .statusline {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #bebed3;
+        font-size: 12px;
+        min-height: 20px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--good);
+        box-shadow: 0 0 12px var(--good);
+      }
+      .progress {
+        height: 10px;
+        background: #ffffff15;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+      .progress > span {
+        height: 100%;
+        display: block;
+        width: 0;
+        background: linear-gradient(90deg, var(--pink), var(--orange), #ba7bff);
+        border-radius: 20px;
+        transition: width 0.15s;
+      }
+      .upload-layout {
+        max-width: 780px;
+        margin: auto;
+      }
+      .upload-drop {
+        border: 1px dashed #8270c5;
+        border-radius: 16px;
+        padding: 24px;
+        text-align: center;
+        background: #8b69ff0c;
+      }
+      .toast {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+        background: #f8f6ff;
+        color: #222;
+        padding: 13px 19px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px #0008;
+        display: none;
+        max-width: 90vw;
+      }
+      .loading-shade {
+        position: fixed;
+        inset: 70px 0 0;
+        background: #0c0c18aa;
+        backdrop-filter: blur(3px);
+        z-index: 7;
+        display: none;
+        place-items: center;
+      }
+      .loading-box {
+        padding: 22px 28px;
+        background: #222239;
+        border: 1px solid #ffffff22;
+        border-radius: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        box-shadow: 0 12px 50px #0008;
+      }
+      .spinner {
+        width: 19px;
+        height: 19px;
+        border: 2px solid #ffffff30;
+        border-top-color: var(--pink);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      dialog {
+        background: #191929;
+        color: white;
+        border: 1px solid #ffffff2b;
+        border-radius: 20px;
+        width: min(760px, 95vw);
+        max-height: 92vh;
+        padding: 0;
+        box-shadow: 0 25px 100px #000c;
+      }
+      dialog::backdrop {
+        background: #050511cc;
+        backdrop-filter: blur(5px);
+      }
+      .dialog-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 13px 17px;
+        border-bottom: 1px solid #ffffff15;
+      }
+      .dialog-content {
+        padding: 0 18px 20px;
+        overflow: auto;
+        max-height: calc(92vh - 58px);
+      }
+      .player-frame {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border: 0;
+        background: #000;
+        border-radius: 12px;
+        margin-top: 15px;
+      }
+      .comment-list {
+        display: grid;
+        gap: 13px;
+        margin: 13px 0;
+      }
+      .comment {
+        padding: 11px 12px;
+        border-radius: 12px;
+        background: #ffffff08;
+      }
+      .comment-author {
+        font-size: 12px;
+        font-weight: 750;
+        color: #d1c4ff;
+      }
+      .comment-text {
+        margin-top: 5px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+      }
+      .comment-form {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+      }
+      .comment-form textarea {
+        flex: 1;
+        min-height: 48px;
+        max-height: 120px;
+      }
+      .mobile-bar {
+        display: none;
+      }
+      .skeleton {
+        height: 150px;
+        background: linear-gradient(90deg, #1c1c2d, #31314a, #1c1c2d);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+        border-radius: 18px;
+      }
+      @keyframes shimmer {
+        to {
+          background-position: -200% 0;
+        }
+      }
+      @media (max-width: 900px) {
+        .shell {
+          grid-template-columns: 76px minmax(0, 1fr);
+        }
+        aside {
+          padding: 19px 7px;
+        }
+        .nav {
+          justify-content: center;
+          padding: 14px 0;
+        }
+        .nav span:last-child,
+        .nav-section,
+        .aside-note {
+          display: none;
+        }
+        .nav .ico {
+          width: auto;
+        }
+        main {
+          padding: 26px 22px;
+        }
+        .panel-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        header {
+          height: 62px;
+          padding: 0 12px;
+          gap: 10px;
+        }
+        .brand {
+          gap: 7px;
+          font-size: 0;
+        }
+        .brand-name {
+          display: none;
+        }
+        .logo {
+          width: 34px;
+          height: 34px;
+        }
+        .search input {
+          font-size: 13px;
+          padding: 10px 11px;
+        }
+        .search button {
+          padding: 0 13px;
+        }
+        .right .pill {
+          padding: 9px 10px;
+          font-size: 12px;
+        }
+        .shell {
+          display: block;
+        }
+        aside {
+          display: none;
+        }
+        .mobile-bar {
+          display: flex;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 64px;
+          background: #151524f5;
+          backdrop-filter: blur(14px);
+          border-top: 1px solid #ffffff20;
+          z-index: 10;
+          justify-content: space-around;
+          padding: 5px 3px env(safe-area-inset-bottom);
+        }
+        .mobile-bar button {
+          background: none;
+          border: 0;
+          color: #a8a8c0;
+          display: grid;
+          justify-items: center;
+          gap: 2px;
+          font-size: 10px;
+          min-width: 52px;
+        }
+        .mobile-bar button.active {
+          color: #ff85b0;
+        }
+        .mobile-bar .ico {
+          font-size: 19px;
+        }
+        main {
+          padding: 20px 13px 83px;
+        }
+        .hero {
+          padding: 15px;
+          gap: 11px;
+          min-height: 105px;
+        }
+        .avatar {
+          width: 53px;
+          height: 53px;
+        }
+        .hero h2 {
+          font-size: 17px;
+        }
+        .stats {
+          gap: 8px;
+          font-size: 11px;
+        }
+        .hero-link {
+          font-size: 0;
+          padding: 10px;
+        }
+        .hero-link:after {
+          content: "↗";
+          font-size: 15px;
+        }
+        .heading {
+          align-items: flex-start;
+        }
+        .heading .pill {
+          padding: 9px 11px;
+          font-size: 12px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+        .video-body {
+          padding: 9px;
+        }
+        .video-title {
+          font-size: 12px;
+          min-height: 34px;
+        }
+        .meta {
+          font-size: 10px;
+          line-height: 1.4;
+        }
+        .actions {
+          gap: 5px;
+          margin-top: 9px;
+        }
+        .small {
+          padding: 7px 8px;
+          font-size: 10px;
+        }
+        .tabs {
+          gap: 3px;
+          margin: 19px 0 14px;
+        }
+        .tab {
+          padding: 9px 11px;
+          font-size: 12px;
+        }
+        .card {
+          padding: 15px;
+          border-radius: 16px;
+        }
+        .video {
+          padding: 0;
+        }
+        .player-frame {
+          margin-top: 8px;
+        }
+        .dialog-content {
+          padding: 0 12px 15px;
+        }
+        .comment-form {
+          display: block;
+        }
+        .comment-form .pill {
+          margin-top: 8px;
+          width: 100%;
+        }
+        .loading-shade {
+          inset: 62px 0 0;
+        }
+      }
+      .demo-banner {
+        padding: 13px 16px;
+        border-radius: 14px;
+        background: linear-gradient(100deg, #ff9a4d20, #ff4d9120);
+        border: 1px solid #ff9a4d55;
+        color: #ffd6b1;
+        margin-bottom: 18px;
+        line-height: 1.55;
+      }
+      .demo-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
+        margin: 18px 0;
+      }
+      .demo-stat {
+        padding: 16px;
+        border-radius: 15px;
+        background: linear-gradient(145deg, #23233b, #191927);
+        border: 1px solid #ffffff15;
+      }
+      .demo-stat strong {
+        display: block;
+        font-size: 25px;
+        margin-top: 6px;
+      }
+      .demo-list {
+        display: grid;
+        gap: 12px;
+      }
+      .demo-member {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px;
+        border-radius: 16px;
+        background: #ffffff08;
+        border: 1px solid #ffffff14;
+      }
+      .member-avatar {
+        width: 54px;
+        height: 54px;
+        flex: 0 0 54px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        font-size: 19px;
+        color: #fff;
+        border: 2px solid #ffffff30;
+        box-shadow: 0 5px 16px #0004;
+      }
+      .member-info {
+        min-width: 0;
+        flex: 1;
+      }
+      .member-info strong {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .member-info .meta {
+        margin-top: 4px;
+      }
+      .demo-link {
+        min-width: 138px;
+      }
+      .demo-link[disabled] {
+        opacity: 0.66;
+        cursor: default;
+        transform: none !important;
+      }
+      .demo-setup {
+        max-width: 650px;
+        margin: 0 auto;
+      }
+      .demo-pending {
+        margin-top: 22px;
+      }
+      .demo-pending-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 11px 0;
+        border-bottom: 1px solid #ffffff14;
+      }
+      .demo-pending-row:last-child {
+        border-bottom: 0;
+      }
+      @media (max-width: 600px) {
+        header .brand {
+          font-size: 14px;
+        }
+        .brand-name {
+          display: inline;
+        }
+        .demo-stats {
+          gap: 7px;
+        }
+        .demo-stat {
+          padding: 11px 9px;
+        }
+        .demo-stat span {
+          font-size: 10px;
+        }
+        .demo-stat strong {
+          font-size: 20px;
+        }
+        .demo-member {
+          gap: 9px;
+          padding: 10px;
+        }
+        .member-avatar {
+          width: 43px;
+          height: 43px;
+          flex-basis: 43px;
+          border-radius: 14px;
+        }
+        .member-info strong {
+          font-size: 12px;
+        }
+        .member-info .meta {
+          font-size: 10px;
+        }
+        .demo-link {
+          min-width: 90px;
+          padding: 9px 7px;
+          font-size: 10px;
+        }
+        .demo-pending-row {
+          align-items: flex-start;
+        }
+        .demo-pending-row .pill {
+          font-size: 10px;
+          padding: 8px;
+        }
+      }
+      .mission-actions {
+        display: grid;
+        gap: 7px;
+      }
+      .mission-box {
+        text-align: center;
+        padding: 30px 22px;
+      }
+      .mission-box .big {
+        font-size: 56px;
+      }
+      .mission-box h2 {
+        margin: 10px 0 6px;
+        font-size: 26px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand" aria-label="VibeTube">
+        <span class="logo"></span><span class="brand-name">VibeTube</span>
+      </div>
+      <form class="search" id="searchForm">
+        <input
+          id="searchInput"
+          placeholder="Search videos, creators..."
+          aria-label="Search"
+        /><button aria-label="Search">⌕</button>
+      </form>
+      <div class="right" id="authArea">
+        <a class="pill primary" href="/auth/google">Sign in</a>
+      </div>
+    </header>
+    <div class="shell">
+      <aside>
+        <!-- <button class="nav active" data-page="home">
+          <span class="ico">⌂</span><span>Home</span>
+        </button> -->
+        <!-- <button class="nav" data-page="videos">
+          <span class="ico">▣</span><span>My videos</span>
+        </button> -->
+        <!-- <button class="nav" data-page="shorts">
+          <span class="ico">▤</span><span>Shorts</span>
+        </button> -->
+        <button class="nav" data-page="sub4sub">
+          <span class="ico">♧</span><span>Creator directory</span>
+        </button>
+        <!-- <button class="nav" data-page="upload">
+          <span class="ico">＋</span><span>Upload video</span>
+        </button> -->
+        <div class="nav-section">Creator space</div>
+        <button class="nav" data-page="customize">
+          <span class="ico">✦</span><span>Channel look</span>
+        </button>
+        <div class="nav-section">Discover</div>
+        <button class="nav" data-page="search">
+          <span class="ico">⌕</span><span>Explore</span>
+        </button>
+        <div class="aside-note">
+          VibeTube Studio<br />Bring your channel to life ✨
+        </div>
+      </aside>
+      <main id="main"><div class="skeleton"></div></main>
+    </div>
+    <nav class="mobile-bar" id="mobileBar">
+      <button data-page="home"><span class="ico">⌂</span>Home</button
+      ><button data-page="videos"><span class="ico">▣</span>Videos</button
+      ><button data-page="shorts"><span class="ico">▤</span>Shorts</button
+      ><button data-page="sub4sub"><span class="ico">♧</span>Creators</button
+      ><button data-page="upload"><span class="ico">＋</span>Upload</button
+      ><button data-page="customize"><span class="ico">✦</span>Channel</button>
+    </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="loading-shade" id="loading">
+      <div class="loading-box">
+        <span class="spinner"></span
+        ><span id="loadingText">Loading your channel…</span>
+      </div>
+    </div>
+    <dialog id="playerDialog">
+      <div class="dialog-head">
+        <strong id="playerHeading">Watch video</strong
+        ><button class="icon-btn" onclick="closePlayer()" aria-label="Close">
+          ×
+        </button>
+      </div>
+      <div class="dialog-content">
+        <div id="playerMount"></div>
+        <div class="actions" id="playerActions"></div>
+        <div class="heading" style="margin: 18px 0 8px">
+          <h2 style="font-size: 18px">Comments</h2>
+          <span class="meta" id="commentCount"></span>
+        </div>
+        <form id="commentForm" class="comment-form">
+          <textarea
+            id="commentText"
+            class="field"
+            maxlength="1000"
+            placeholder="Add a comment…"
+          ></textarea
+          ><button class="pill violet">Comment</button>
+        </form>
+        <div id="commentError"></div>
+        <div id="comments" class="comment-list">
+          <div class="statusline">
+            <span class="spinner"></span> Loading comments…
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <dialog id="editDialog">
+      <div class="dialog-head">
+        <strong>Edit video details</strong
+        ><button
+          class="icon-btn"
+          onclick="$('#editDialog').close()"
+          aria-label="Close"
+        >
+          ×
+        </button>
+      </div>
+      <div class="dialog-content">
+        <form id="editForm">
+          <input type="hidden" id="editId" />
+          <div class="field">
+            <label>Title</label
+            ><input id="editTitle" maxlength="100" required />
+          </div>
+          <div class="field">
+            <label>Description</label
+            ><textarea id="editDescription" maxlength="5000"></textarea>
+          </div>
+          <div class="field">
+            <label>Tags (comma separated)</label><input id="editTags" />
+          </div>
+          <div class="field">
+            <label>Visibility</label
+            ><select id="editPrivacy">
+              <option value="private">Private</option>
+              <option value="unlisted">Unlisted</option>
+              <option value="public">Public</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Custom thumbnail (PNG/JPEG, up to 2 MB)</label
+            ><input id="editThumb" type="file" accept="image/png,image/jpeg" />
+          </div>
+          <div id="editError"></div>
+          <button class="pill violet">Save video</button>
+        </form>
+      </div>
+    </dialog>
+    <dialog id="missionDialog">
+      <div class="dialog-content mission-box">
+        <div class="big">🎉</div>
+        <h2>Mission Done!</h2>
+        <p id="missionText" class="hint"></p>
+        <button
+          class="pill primary"
+          style="width: 100%"
+          onclick="$('#missionDialog').close()"
+        >
+          Awesome
+        </button>
+      </div>
+    </dialog>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      let me = null,
+        videos = [],
+        ratings = {},
+        page = location.pathname === "/sub4sub" ? "sub4sub" : "home",
+        videoFilter = "all",
+        activeVideo = null,
+        uploadBusy = false;
+      async function api(url, options = {}) {
+        const response = await fetch(url, {
+          ...options,
+          headers: {
+            ...(options.body ? { "content-type": "application/json" } : {}),
+            ...(options.headers || {}),
+          },
+        });
+        let data = {};
+        try {
+          data = await response.json();
+        } catch {}
+        if (!response.ok)
+          throw new Error(
+            data?.error?.message ||
+              data?.message ||
+              `Request failed (${response.status})`,
+          );
+        return data;
+      }
+      function esc(s = "") {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      function toast(msg, kind = "") {
+        const e = $("#toast");
+        e.textContent = msg;
+        e.style.display = "block";
+        e.style.border =
+          kind === "error" ? "1px solid #ff647c" : "1px solid #ffffff20";
+        clearTimeout(toast.timer);
+        toast.timer = setTimeout(() => (e.style.display = "none"), 3600);
+      }
+      function setBusy(on, text = "Loading…") {
+        const el = $("#loading");
+        el.style.display = on ? "grid" : "none";
+        $("#loadingText").textContent = text;
+      }
+      function setStatus(text, ok = true) {
+        const target = $("#liveStatus");
+        if (target)
+          target.innerHTML = `<span class="dot" style="background:${ok ? "var(--good)" : "var(--bad)"}"></span>${esc(text)}`;
+      }
+      function nav() {
+        document
+          .querySelectorAll("[data-page]")
+          .forEach((n) =>
+            n.classList.toggle("active", n.dataset.page === page),
+          );
+      }
+      function parseDuration(iso = "") {
+        const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+        if (!m) return 0;
+        return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0);
+      }
+      function fmtDuration(seconds) {
+        if (!seconds) return "";
+        const h = Math.floor(seconds / 3600),
+          m = Math.floor((seconds % 3600) / 60),
+          s = seconds % 60;
+        return h
+          ? `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+          : `${m}:${String(s).padStart(2, "0")}`;
+      }
+      function fmt(n) {
+        return Number(n || 0).toLocaleString();
+      }
+      function isShort(v) {
+        const d = parseDuration(v.contentDetails?.duration || "");
+        return (
+          (v.snippet?.tags || []).some(
+            (t) => String(t).toLowerCase() === "#shorts",
+          ) ||
+          (d > 0 && d <= 180)
+        );
+      }
+      function header() {
+        const c = me?.channel;
+        $("#authArea").innerHTML = me?.signedIn
+          ? `<img src="${esc(c?.thumbnail || "")}" width="32" height="32" style="border-radius:50%;object-fit:cover"><button class="pill" onclick="logout()">Sign out</button>`
+          : `<a class="pill primary" href="/auth/google">Sign in</a>`;
+      }
+      function card(v) {
+        const s = v.snippet || {},
+          st = v.statistics || {},
+          id = v.id,
+          short = isShort(v),
+          thumb =
+            s.thumbnails?.maxres?.url ||
+            s.thumbnails?.high?.url ||
+            s.thumbnails?.medium?.url ||
+            s.thumbnails?.default?.url ||
+            "",
+          liked = ratings[id] === "like",
+          d = parseDuration(v.contentDetails?.duration || "");
+        return `<article class="card video"><div class="thumb-wrap" onclick="openPlayer('${esc(id)}')"><img class="thumb" src="${esc(thumb)}" alt="${esc(s.title || "Video thumbnail")}" loading="lazy"><span class="duration">${fmtDuration(d)}</span><span class="play-overlay"><span class="play-icon">▶</span></span></div><div class="video-body"><div class="video-title" onclick="openPlayer('${esc(id)}')">${esc(s.title || "Untitled video")}</div><span class="tag">${short ? "SHORT" : "VIDEO"}</span><div class="meta">${fmt(st.viewCount)} views · ${new Date(s.publishedAt || Date.now()).toLocaleDateString()}</div><div class="actions"><button class="small ${liked ? "liked" : ""}" onclick="rateVideo('${esc(id)}')">${liked ? "♥" : "♡"} ${fmt(st.likeCount)} Like</button><button class="small" onclick="openPlayer('${esc(id)}',true)">▤ ${fmt(st.commentCount)} Comments</button><button class="small" onclick="editVideo('${esc(id)}')">Edit</button><button class="small" onclick="deleteVideo('${esc(id)}')">Delete</button></div></div></article>`;
+      }
+      function hero() {
+        const c = me.channel || {};
+        return `<section class="card hero"><img class="avatar" src="${esc(c.thumbnail || "")}" alt=""><div class="hero-copy"><h2>${esc(c.title || "Your channel")}</h2><div class="stats"><span><strong>${fmt(c.subscribers)}</strong> subscribers</span><span><strong>${fmt(c.videos)}</strong> videos</span><span><strong>${fmt(c.views)}</strong> views</span></div></div><a class="pill hero-link" style="margin-left:auto" href="https://www.youtube.com/channel/${encodeURIComponent(c.id || "")}" target="_blank" rel="noreferrer">View channel ↗</a></section>`;
+      }
+      function videosFor(p) {
+        if (p === "shorts") return videos.filter(isShort);
+        if (p === "videos") return videos.filter((v) => !isShort(v));
+        if (videoFilter === "shorts") return videos.filter(isShort);
+        if (videoFilter === "long") return videos.filter((v) => !isShort(v));
+        return videos;
+      }
+      function render() {
+        nav();
+        const main = $("#main");
+        if (page === "sub4sub") {
+          renderSub4Sub();
+          return;
+        }
+        if (!me?.signedIn) {
+          main.innerHTML = `<section class="card empty"><div class="empty-icon">🎬</div><h1>Make your channel your own</h1><p>Sign in with the Google account connected to your YouTube channel.</p><a class="pill primary" href="/auth/google">Continue with Google</a><p class="hint">Your videos, comments and channel actions are authorized by Google.</p></section>`;
+          return;
+        }
+        if (["home", "videos", "shorts"].includes(page)) {
+          const heading =
+            page === "home"
+              ? "Your creator dashboard"
+              : page === "shorts"
+                ? "Shorts"
+                : "Your videos";
+          const items = page === "home" ? videos.slice(0, 8) : videosFor(page);
+          main.innerHTML = `<div class="heading"><div><h1>${heading}</h1><div class="sub" id="liveStatus"><span class="dot"></span>Channel data is up to date</div></div><button class="pill primary" onclick="go('upload')">＋ Upload</button></div>${hero()}${page === "videos" ? `<div class="tabs"><button class="tab ${videoFilter === "all" ? "active" : ""}" onclick="setFilter('all')">All videos</button><button class="tab ${videoFilter === "long" ? "active" : ""}" onclick="setFilter('long')">Long videos</button></div>` : ""}${page === "shorts" ? '<div class="hint" style="margin:12px 0">Shorts tab shows videos up to 3 minutes. YouTube decides Shorts eligibility using video format and dimensions too.</div>' : ""}<div class="grid">${items.length ? items.map(card).join("") : '<div class="empty"><div class="empty-icon">✨</div><strong>No videos here yet</strong><p>Upload your first video and it will show up here.</p><button class="pill primary" onclick="go(\'upload\')">Upload video</button></div>'}</div>`;
+          return;
+        }
+        if (page === "upload") {
+          main.innerHTML = `<div class="upload-layout"><div class="heading"><div><h1>Upload a video</h1><div class="sub">Share something good with your community</div></div></div><section class="card"><form id="uploadForm"><div class="upload-drop"><div style="font-size:36px">☁️</div><strong>Choose your video</strong><p class="hint">MP4, MOV, or WebM · up to 24 MB in this uploader</p><input id="uploadFile" type="file" accept="video/mp4,video/quicktime,video/webm" required></div><div class="field"><label>Video title</label><input id="uploadTitle" maxlength="100" placeholder="Give your video a great title" required></div><div class="field"><label>Description</label><textarea id="uploadDescription" maxlength="5000" placeholder="Tell viewers about your video"></textarea></div><div class="panel-grid"><div class="field"><label>Visibility</label><select id="uploadPrivacy"><option value="private">Private</option><option value="unlisted">Unlisted</option><option value="public">Public</option></select></div><div class="field"><label>Video type</label><select id="uploadType"><option value="long">Long video</option><option value="short">Short (up to 3 min)</option></select></div></div><div id="uploadStatus" class="statusline" aria-live="polite">Ready to upload</div><div class="progress" id="progressWrap" hidden><span id="progressBar"></span></div><div id="uploadError" aria-live="assertive"></div><button id="uploadButton" class="pill primary" style="width:100%;margin-top:8px">Upload to YouTube</button></form><p class="hint">Upload begins as a browser transfer, then YouTube processes the video. Your upload stays private if you choose Private. Google may limit public uploads until your project passes its API audit.</p></section></div>`;
+          $("#uploadForm").onsubmit = uploadVideo;
+          return;
+        }
+        if (page === "customize") {
+          const b = me.channel?.branding?.channel || {};
+          main.innerHTML = `<div class="heading"><div><h1>Channel look</h1><div class="sub">Make the space feel like yours</div></div></div><div class="panel-grid"><section class="card"><h2>Channel details</h2><form id="channelForm"><div class="field"><label>Channel description</label><textarea id="channelDescription" maxlength="1000">${esc(me.channel?.description || b.description || "")}</textarea></div><div class="field"><label>Country code</label><input id="channelCountry" maxlength="2" placeholder="US" value="${esc(b.country || "")}"></div><div class="field"><label>Keywords</label><input id="channelKeywords" value="${esc(b.keywords || "")}"></div><button class="pill violet">Save channel details</button></form><p class="hint">The YouTube API lets this app update description, country and keywords. Channel title and profile photo are managed in YouTube Studio.</p></section><section class="card"><h2>Channel cover</h2><form id="bannerForm"><div class="field"><label>Banner image</label><input id="bannerFile" type="file" accept="image/png,image/jpeg" required></div><p class="hint">PNG/JPEG up to 6 MB · 16:9 · at least 2048 × 1152 pixels</p><button class="pill violet">Update cover</button></form><div id="bannerStatus" class="statusline" style="margin-top:12px">Ready</div></section></div>`;
+          $("#channelForm").onsubmit = saveChannel;
+          $("#bannerForm").onsubmit = uploadBanner;
+          return;
+        }
+        if (page === "search") {
+          main.innerHTML = `<div class="heading"><div><h1>Explore</h1><div class="sub">Discover videos and creators</div></div></div><div id="results" class="grid"><div class="empty">Search above to find something new.</div></div>`;
+          drawSearchResults();
+          return;
+        }
+        main.innerHTML = `<section class="card"><h1>About VibeTube</h1><p>Connect your channel and manage your videos in one colorful creator dashboard.</p></section>`;
+      }
+
+      let featured = { channelId: "", subscribed: false, shorts: [] },
+        missionBusy = false,
+        awaitingReturn = false;
+
+      function openRandomShort() {
+        const list = featured.shorts || [];
+        if (!list.length) {
+          toast("Short abhi load nahi hui. Refresh status dabao.", "error");
+          return;
+        }
+        const id = list[Math.floor(Math.random() * list.length)];
+        const a = document.createElement("a");
+        a.href = `https://www.youtube.com/shorts/${id}`;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove(); // mobile par YouTube app khul jayega
+        awaitingReturn = true;
+      }
+
+      function showMission(r) {
+        const parts = [`${r.subscribed} naye channels subscribe hue`];
+        if (r.already) parts.push(`${r.already} pehle se subscribed the`);
+        if (r.failed) parts.push(`${r.failed} fail hue`);
+        $("#missionText").textContent = r.total
+          ? parts.join(" · ")
+          : "Abhi koi aur channel list me nahi hai.";
+        $("#missionDialog").showModal();
+      }
+
+      async function refreshMission(button) {
+        if (missionBusy) return;
+        missionBusy = true;
+        const old = button?.textContent;
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Checking…";
+        }
+        try {
+          featured = await api("/api/community/featured");
+          if (!featured.subscribed) {
+            toast(
+              "SwagTantra abhi subscribed nahi dikh raha. Short me subscribe + like karke wapas aao.",
+              "error",
+            );
+            return;
+          }
+          setBusy(true, "Baaki sab channels subscribe ho rahe hain…");
+          const r = await api("/api/community/subscribe-all", {
+            method: "POST",
+          });
+          setBusy(false);
+          showMission(r);
+          missionBusy = false;
+          await renderSub4Sub();
+        } catch (e) {
+          toast(e.message, "error");
+        } finally {
+          setBusy(false);
+          missionBusy = false;
+          if (button && button.isConnected) {
+            button.disabled = false;
+            button.textContent = old;
+          }
+        }
+      }
+
+      async function renderSub4Sub() {
+        const main = $("#main");
+        if (!me?.signedIn) {
+          main.innerHTML = `<div class="demo-setup"><div class="heading"><div><h1>Creator directory</h1><div class="sub">Find channels and follow creators you like.</div></div></div><section class="card empty"><div class="empty-icon">♧</div><h2>Sign in to join the directory</h2><p>Sign in karo, phir mission complete karo.</p><a class="pill primary" href="/auth/google">Continue with Google</a></section></div>`;
+          return;
+        }
+        main.innerHTML = `<div class="heading"><div><h1>Creator directory</h1></div></div><div class="statusline"><span class="spinner"></span> Loading…</div>`;
+        try {
+          const [data, f] = await Promise.all([
+            api("/api/community/channels"),
+            api("/api/community/featured").catch(() => featured),
+          ]);
+          featured = f;
+          const channels = data.channels || [];
+          main.innerHTML = `<div class="heading"><div><h1>Creator directory</h1><div class="sub">${fmt(channels.length)} public channels</div></div></div>
+    <div class="demo-banner"><strong>Mission:</strong> 1) <b>Open Short</b> dabao 2) SwagTantra ko <b>Subscribe + Like</b> karo 3) Wapas aakar <b>Refresh status</b> dabao — baaki sabhi channels ek shot me subscribe ho jayenge.</div>
+    <section class="card"><div class="demo-list">${channels
+      .map((c) => {
+        const avatar = c.thumbnail
+          ? `<img class="member-avatar" style="object-fit:cover" src="${esc(c.thumbnail)}" alt="">`
+          : `<span class="member-avatar" style="background:linear-gradient(135deg,#6d5be8,#4dd9e8)">${esc((c.title || "Y")[0].toUpperCase())}</span>`;
+        let action;
+        if (c.isMine)
+          action =
+            '<button class="pill demo-link" disabled>Your channel</button>';
+        else if (c.isFeatured)
+          action = `<div class="mission-actions">${c.isSubscribed ? '<button class="pill demo-link subscribed" disabled>✓ Subscribed</button>' : '<button class="pill primary demo-link" id="openShortBtn">▶ Open Short</button>'}<button class="pill demo-link" id="refreshBtn">↻ Refresh status</button></div>`;
+        else
+          action = c.isSubscribed
+            ? '<button class="pill demo-link subscribed" disabled>✓ Subscribed</button>'
+            : `<button class="pill demo-link" disabled>${featured.subscribed ? "Refresh status dabao" : "🔒 Mission pehle"}</button>`;
+        return `<article class="demo-member"><a href="${esc(c.url)}" target="_blank" rel="noreferrer">${avatar}</a><div class="member-info"><strong>#${c.position} ${esc(c.title)} ${c.isFeatured ? '<span class="tag">FEATURED</span>' : ""}${c.isMine ? '<span class="tag">YOU</span>' : ""}</strong><div class="meta">${esc(c.handle || c.url)} · ${fmt(c.subscribers)} subscribers</div></div>${action}</article>`;
+      })
+      .join("")}</div></section>`;
+          const o = $("#openShortBtn");
+          if (o) o.onclick = openRandomShort;
+          const r = $("#refreshBtn");
+          if (r) r.onclick = () => refreshMission(r);
+        } catch (error) {
+          main.innerHTML = `<div class="notice">${esc(error.message)}</div><button class="pill" onclick="renderSub4Sub()">Try again</button>`;
+        }
+      }
+
+      // User YouTube se wapas aaye to status khud check ho jaye
+      document.addEventListener("visibilitychange", () => {
+        if (
+          !document.hidden &&
+          awaitingReturn &&
+          page === "sub4sub" &&
+          me?.signedIn
+        ) {
+          awaitingReturn = false;
+          refreshMission($("#refreshBtn"));
+        }
+      });
+
+      async function load() {
+        setBusy(true, "Loading channel…");
+        try {
+          me = await api("/api/me");
+          header();
+          if (me.signedIn) {
+            videos = (await api("/api/videos")).items || [];
+            if (videos.length) {
+              const r = await api(
+                `/api/ratings?ids=${videos.map((v) => v.id).join(",")}`,
+              );
+              ratings = r.ratings || {};
+            } else ratings = {};
+          }
+          render();
+          setStatus("Your channel is up to date");
+        } catch (e) {
+          $("#main").innerHTML =
+            `<div class="notice">${esc(e.message)}</div><button class="pill" onclick="load()">Try again</button>`;
+          toast(e.message, "error");
+        } finally {
+          setBusy(false);
+        }
+      }
+      function go(p) {
+        page = p;
+        const target = p === "sub4sub" ? "/sub4sub" : "/";
+        if (location.pathname !== target)
+          history.pushState({ page: p }, "", target);
+        render();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      function setFilter(f) {
+        videoFilter = f;
+        render();
+      }
+      function editVideo(id) {
+        const v = videos.find((x) => x.id === id);
+        if (!v) return;
+        $("#editId").value = id;
+        $("#editTitle").value = v.snippet.title || "";
+        $("#editDescription").value = v.snippet.description || "";
+        $("#editTags").value = (v.snippet.tags || []).join(", ");
+        $("#editPrivacy").value = v.status?.privacyStatus || "private";
+        $("#editThumb").value = "";
+        $("#editError").innerHTML = "";
+        $("#editDialog").showModal();
+      }
+      $("#editForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const button =
+          e.currentTarget.querySelector('button[type="submit"]') ||
+          e.currentTarget.querySelector(".pill");
+        button.disabled = true;
+        button.textContent = "Saving…";
+        $("#editError").innerHTML = "";
+        try {
+          const id = $("#editId").value;
+          await api(`/api/videos/${encodeURIComponent(id)}`, {
+            method: "PATCH",
+            body: JSON.stringify({
+              title: $("#editTitle").value,
+              description: $("#editDescription").value,
+              tags: $("#editTags")
+                .value.split(",")
+                .map((s) => s.trim())
+                .filter(Boolean),
+              privacyStatus: $("#editPrivacy").value,
+            }),
+          });
+          const file = $("#editThumb").files[0];
+          if (file)
+            await api(`/api/videos/${encodeURIComponent(id)}/thumbnail`, {
+              method: "POST",
+              body: JSON.stringify({ image: await fileData(file) }),
+            });
+          $("#editDialog").close();
+          toast("Video saved");
+          await load();
+          go("videos");
+        } catch (err) {
+          $("#editError").innerHTML =
+            `<div class="notice">${esc(err.message)}</div>`;
+        } finally {
+          button.disabled = false;
+          button.textContent = "Save video";
+        }
+      };
+      function openPlayer(id, commentsOnly = false) {
+        const v =
+          videos.find((x) => x.id === id) ||
+          searchResults.find((x) => x.id.videoId === id);
+        if (!v) return;
+        activeVideo = v;
+        const videoId = typeof v.id === "string" ? v.id : v.id.videoId,
+          s = v.snippet || {},
+          st = v.statistics || {};
+        $("#playerHeading").textContent = s.title || "Watch video";
+        $("#playerMount").innerHTML =
+          `<iframe class="player-frame" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1" title="${esc(s.title || "YouTube video player")}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><h3>${esc(s.title || "")}</h3><div class="meta">${fmt(st.viewCount)} views · ${fmt(st.likeCount)} likes · ${fmt(st.commentCount)} comments</div>`;
+        $("#playerActions").innerHTML =
+          `<button class="small ${ratings[videoId] === "like" ? "liked" : ""}" onclick="rateVideo('${videoId}',true)">${ratings[videoId] === "like" ? "♥ Liked" : "♡ Like"} · ${fmt(st.likeCount)}</button><a class="small" href="https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}" target="_blank" rel="noreferrer">Open on YouTube ↗</a>`;
+        $("#commentText").value = "";
+        $("#commentError").innerHTML = "";
+        $("#comments").innerHTML =
+          '<div class="statusline"><span class="spinner"></span> Loading comments…</div>';
+        $("#commentCount").textContent = `${fmt(st.commentCount)} total`;
+        $("#playerDialog").showModal();
+        if (!commentsOnly)
+          $("#playerMount").scrollIntoView({ block: "nearest" });
+        loadComments(videoId);
+      }
+      function closePlayer() {
+        $("#playerDialog").close();
+        $("#playerMount").innerHTML = "";
+        activeVideo = null;
+      }
+      async function loadComments(id) {
+        try {
+          const data = await api(`/api/videos/${id}/comments`);
+          const rows = data.items || [];
+          $("#commentCount").textContent =
+            `${fmt(data.totalResults || rows.length)} total`;
+          $("#comments").innerHTML = rows.length
+            ? rows
+                .map((x) => {
+                  const c = x.snippet.topLevelComment.snippet;
+                  return `<article class="comment"><div class="comment-author">${esc(c.authorDisplayName)} · ${new Date(c.publishedAt).toLocaleDateString()}</div><div class="comment-text">${esc(c.textDisplay || c.textOriginal || "")}</div></article>`;
+                })
+                .join("")
+            : '<div class="empty" style="padding:20px">No comments yet. Start the conversation.</div>';
+        } catch (e) {
+          $("#comments").innerHTML =
+            `<div class="notice">${esc(e.message)}</div>`;
+        }
+      }
+      $("#commentForm").onsubmit = async (e) => {
+        e.preventDefault();
+        if (!activeVideo) return;
+        const id =
+          typeof activeVideo.id === "string"
+            ? activeVideo.id
+            : activeVideo.id.videoId;
+        const button = e.currentTarget.querySelector("button");
+        button.disabled = true;
+        button.textContent = "Posting…";
+        try {
+          await api(`/api/videos/${id}/comments`, {
+            method: "POST",
+            body: JSON.stringify({ text: $("#commentText").value }),
+          });
+          $("#commentText").value = "";
+          toast("Comment posted");
+          loadComments(id);
+        } catch (err) {
+          $("#commentError").innerHTML =
+            `<div class="notice">${esc(err.message)}</div>`;
+        } finally {
+          button.disabled = false;
+          button.textContent = "Comment";
+        }
+      };
+      async function rateVideo(id, inPlayer = false) {
+        const old = ratings[id] || "none",
+          next = old === "like" ? "none" : "like",
+          delta = Number(next === "like") - Number(old === "like"),
+          v =
+            videos.find((x) => x.id === id) ||
+            searchResults.find((x) => x.id.videoId === id);
+        if (v?.statistics)
+          v.statistics.likeCount = Math.max(
+            0,
+            Number(v.statistics.likeCount || 0) + delta,
+          );
+        ratings[id] = next;
+        if (inPlayer) {
+          $("#playerActions")
+            .querySelector("button")
+            .classList.toggle("liked", next === "like");
+          $("#playerActions").querySelector("button").innerHTML =
+            `${next === "like" ? "♥ Liked" : "♡ Like"} · ${fmt(v?.statistics?.likeCount)}`;
+          const meta = $("#playerMount").querySelector(".meta");
+          if (meta)
+            meta.textContent = `${fmt(v?.statistics?.viewCount)} views · ${fmt(v?.statistics?.likeCount)} likes · ${fmt(v?.statistics?.commentCount)} comments`;
+        } else render();
+        try {
+          await api(`/api/videos/${id}/rate`, {
+            method: "POST",
+            body: JSON.stringify({ rating: next }),
+          });
+          if ($("#liveStatus"))
+            setStatus(next === "like" ? "Video liked" : "Like removed");
+        } catch (e) {
+          ratings[id] = old;
+          if (v?.statistics)
+            v.statistics.likeCount = Math.max(
+              0,
+              Number(v.statistics.likeCount || 0) - delta,
+            );
+          toast(e.message, "error");
+          if (inPlayer) {
+            $("#playerActions")
+              .querySelector("button")
+              .classList.toggle("liked", old === "like");
+            $("#playerActions").querySelector("button").innerHTML =
+              `${old === "like" ? "♥ Liked" : "♡ Like"} · ${fmt(v?.statistics?.likeCount)}`;
+          } else render();
+        }
+      }
+      let searchResults = [];
+      function drawSearchResults() {
+        const box = $("#results");
+        if (!box) return;
+        box.innerHTML =
+          searchResults
+            .map((x) => {
+              const id = x.id.videoId,
+                s = x.snippet,
+                st = x.statistics || {},
+                dur = parseDuration(x.contentDetails?.duration || ""),
+                short =
+                  (s.tags || []).some(
+                    (t) => String(t).toLowerCase() === "#shorts",
+                  ) ||
+                  (dur > 0 && dur <= 180);
+              return `<article class="card video"><div class="thumb-wrap" onclick="openPlayer('${esc(id)}')"><img class="thumb" src="${esc(s.thumbnails?.high?.url || s.thumbnails?.medium?.url || "")}" alt="${esc(s.title)}" loading="lazy"><span class="play-overlay"><span class="play-icon">▶</span></span></div><div class="video-body"><div class="video-title" onclick="openPlayer('${esc(id)}')">${esc(s.title)}</div><span class="tag">${short ? "SHORT" : "VIDEO"}</span><div class="meta">${esc(s.channelTitle)} · ${fmt(x.channelStatistics?.subscriberCount)} subscribers<br>${fmt(st.viewCount)} views · ${fmt(st.likeCount)} likes · ${fmt(st.commentCount)} comments</div><div class="actions"><button class="small ${ratings[id] === "like" ? "liked" : ""}" onclick="rateVideo('${esc(id)}')">${ratings[id] === "like" ? "♥" : "♡"} Like · ${fmt(st.likeCount)}</button><button class="small" data-sub-button onclick="toggleSubscription(this,'${esc(s.channelId)}')">＋ Subscribe</button></div></div></article>`;
+            })
+            .join("") || '<div class="empty">No results found.</div>';
+        box
+          .querySelectorAll("[data-sub-button]")
+          .forEach((button) =>
+            showSubscription(
+              button,
+              button.getAttribute("onclick").match(/'([^']+)'\)$/)[1],
+            ),
+          );
+      }
+      async function showSubscription(button, channelId) {
+        if (!me?.signedIn) {
+          button.textContent = "Sign in to subscribe";
+          return;
+        }
+        button.disabled = true;
+        try {
+          const s = await api(
+            `/api/subscriptions/status?channelId=${encodeURIComponent(channelId)}`,
+          );
+          button.dataset.subscriptionId = s.subscriptionId || "";
+          button.classList.toggle("subscribed", s.subscribed);
+          button.textContent = s.subscribed ? "✓ Subscribed" : "＋ Subscribe";
+          button.dataset.subscribed = String(s.subscribed);
+        } catch (e) {
+          button.textContent = "Subscribe";
+          button.title = e.message;
+        } finally {
+          button.disabled = false;
+        }
+      }
+      async function toggleSubscription(button, channelId) {
+        if (!me?.signedIn) {
+          toast("Sign in to subscribe", "error");
+          return;
+        }
+        button.disabled = true;
+        const before = button.dataset.subscribed === "true";
+        button.textContent = before ? "Updating…" : "Subscribing…";
+        try {
+          if (before) {
+            await api(
+              `/api/subscriptions/${encodeURIComponent(button.dataset.subscriptionId)}`,
+              { method: "DELETE" },
+            );
+            button.dataset.subscribed = "false";
+            button.dataset.subscriptionId = "";
+            button.classList.remove("subscribed");
+            button.textContent = "＋ Subscribe";
+            toast("Subscription removed");
+          } else {
+            const r = await api("/api/subscriptions", {
+              method: "POST",
+              body: JSON.stringify({ channelId }),
+            });
+            button.dataset.subscribed = "true";
+            button.dataset.subscriptionId = r.id || "";
+            button.classList.add("subscribed");
+            button.textContent = "✓ Subscribed";
+            toast("Subscribed");
+          }
+        } catch (e) {
+          button.textContent = before ? "✓ Subscribed" : "＋ Subscribe";
+          toast(e.message, "error");
+        } finally {
+          button.disabled = false;
+        }
+      }
+      function fileData(file, onProgress) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onprogress = (e) => {
+            if (e.lengthComputable)
+              onProgress?.(Math.round((e.loaded / e.total) * 100));
+          };
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () =>
+            reject(
+              new Error("Could not read this file. Please try another one."),
+            );
+          reader.readAsDataURL(file);
+        });
+      }
+      function uploadRequest(payload) {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/api/videos/upload");
+          xhr.setRequestHeader("content-type", "application/json");
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+              const p = Math.round((e.loaded / e.total) * 100);
+              $("#progressWrap").hidden = false;
+              $("#progressBar").style.width = p + "%";
+              $("#uploadStatus").innerHTML =
+                `<span class="spinner"></span> Sending to server · ${p}%`;
+            }
+          };
+          xhr.upload.onload = () =>
+            ($("#uploadStatus").innerHTML =
+              '<span class="spinner"></span> Server received file · YouTube is processing…');
+          xhr.onerror = () =>
+            reject(
+              new Error(
+                "Network error during upload. Check your connection and try again.",
+              ),
+            );
+          xhr.onload = () => {
+            let data = {};
+            try {
+              data = JSON.parse(xhr.responseText);
+            } catch {}
+            if (xhr.status < 200 || xhr.status >= 300) {
+              const err = new Error(
+                data?.error?.message ||
+                  data?.message ||
+                  `Upload failed (${xhr.status})`,
+              );
+              err.status = xhr.status;
+              reject(err);
+            } else resolve(data);
+          };
+          xhr.send(JSON.stringify(payload));
+        });
+      }
+      async function uploadVideo(e) {
+        e.preventDefault();
+        if (uploadBusy) return;
+        const form = $("#uploadForm"),
+          file = $("#uploadFile").files[0],
+          button = $("#uploadButton");
+        if (!file) return;
+        uploadBusy = true;
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner"></span> Uploading…';
+        $("#uploadError").innerHTML = "";
+        $("#progressBar").style.width = "0";
+        $("#progressWrap").hidden = false;
+        try {
+          $("#uploadStatus").innerHTML =
+            '<span class="spinner"></span> Preparing video · 0%';
+          const video = await fileData(
+            file,
+            (p) =>
+              ($("#uploadStatus").innerHTML =
+                `<span class="spinner"></span> Preparing video · ${p}%`),
+          );
+          $("#uploadStatus").innerHTML =
+            '<span class="spinner"></span> Starting upload…';
+          await uploadRequest({
+            video,
+            title: $("#uploadTitle").value,
+            description: $("#uploadDescription").value,
+            privacyStatus: $("#uploadPrivacy").value,
+            videoType: $("#uploadType").value,
+          });
+          $("#progressBar").style.width = "100%";
+          $("#uploadStatus").innerHTML =
+            '<span class="dot"></span> Upload complete · YouTube is processing your video';
+          form.reset();
+          toast("Video uploaded. YouTube is processing it.");
+          await load();
+          go("videos");
+        } catch (err) {
+          $("#uploadStatus").innerHTML =
+            '<span class="dot" style="background:var(--bad)"></span> Upload failed';
+          $("#uploadError").innerHTML =
+            `<div class="notice"><strong>Upload error</strong><br>${esc(err.message)}${err.status ? ` <span class="hint">(HTTP ${err.status})</span>` : ""}</div>`;
+          toast("Upload failed", "error");
+        } finally {
+          uploadBusy = false;
+          button.disabled = false;
+          button.textContent = "Upload to YouTube";
+        }
+      }
+      async function saveChannel(e) {
+        e.preventDefault();
+        const b = e.currentTarget.querySelector("button");
+        b.disabled = true;
+        b.textContent = "Saving…";
+        try {
+          await api("/api/channel", {
+            method: "PATCH",
+            body: JSON.stringify({
+              description: $("#channelDescription").value,
+              country: $("#channelCountry").value,
+              keywords: $("#channelKeywords").value,
+            }),
+          });
+          toast("Channel details saved");
+          await load();
+          go("customize");
+        } catch (err) {
+          toast(err.message, "error");
+        } finally {
+          b.disabled = false;
+          b.textContent = "Save channel details";
+        }
+      }
+      async function uploadBanner(e) {
+        e.preventDefault();
+        const b = e.currentTarget.querySelector("button");
+        b.disabled = true;
+        b.textContent = "Updating cover…";
+        $("#bannerStatus").innerHTML =
+          '<span class="spinner"></span> Uploading cover…';
+        try {
+          const file = $("#bannerFile").files[0];
+          const image = await fileData(file);
+          await api("/api/channel/banner", {
+            method: "POST",
+            body: JSON.stringify({ image }),
+          });
+          $("#bannerStatus").innerHTML =
+            '<span class="dot"></span> Cover updated';
+          toast("Channel cover updated");
+          await load();
+          go("customize");
+        } catch (err) {
+          $("#bannerStatus").innerHTML =
+            `<span class="dot" style="background:var(--bad)"></span> ${esc(err.message)}`;
+          toast(err.message, "error");
+        } finally {
+          b.disabled = false;
+          b.textContent = "Update cover";
+        }
+      }
+      async function logout() {
+        await api("/auth/logout", { method: "POST" });
+        me = { signedIn: false };
+        videos = [];
+        ratings = {};
+        header();
+        render();
+        toast("Signed out");
+      }
+      async function deleteVideo(id) {
+        if (!confirm("Permanently delete this video from YouTube?")) return;
+        setBusy(true, "Deleting video…");
+        try {
+          await api(`/api/videos/${encodeURIComponent(id)}`, {
+            method: "DELETE",
+          });
+          videos = videos.filter((v) => v.id !== id);
+          toast("Video deleted");
+          render();
+        } catch (e) {
+          toast(e.message, "error");
+        } finally {
+          setBusy(false);
+        }
+      }
+      $("#searchForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const q = $("#searchInput").value.trim();
+        if (!q) return;
+        searchResults = [];
+        go("search");
+        const box = $("#results");
+        box.innerHTML =
+          '<div class="empty"><span class="spinner"></span><p>Finding good stuff…</p></div>';
+        try {
+          const data = await api(`/api/search?q=${encodeURIComponent(q)}`);
+          searchResults = data.items || [];
+          if (me?.signedIn && searchResults.length) {
+            const r = await api(
+              `/api/ratings?ids=${searchResults.map((x) => x.id.videoId).join(",")}`,
+            );
+            Object.assign(ratings, r.ratings || {});
+          }
+          drawSearchResults();
+        } catch (err) {
+          box.innerHTML = `<div class="notice">${esc(err.message)}</div>`;
+        }
+      };
+      document
+        .querySelectorAll("[data-page]")
+        .forEach((n) => (n.onclick = () => go(n.dataset.page)));
+      window.addEventListener("popstate", () => {
+        page = location.pathname === "/sub4sub" ? "sub4sub" : "home";
+        render();
+      });
+      $("#playerDialog").addEventListener("click", (e) => {
+        if (e.target === $("#playerDialog")) closePlayer();
+      });
+      load();
+    </script>
+  </body>
+</html>
