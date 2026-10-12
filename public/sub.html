@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11131b" />
+    <title>Creator directory · VibeTube</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #11131b;
+        color: #f5f5fa;
+        font-synthesis: none;
+      }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; margin: 0; background: radial-gradient(ellipse at 50% -20%, #292b48 0, #11131b 55%); }
+      a { color: inherit; }
+      .topbar { height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 max(20px, calc((100% - 1100px) / 2)); border-bottom: 1px solid #ffffff12; background: #11131bd9; }
+      .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; letter-spacing: -.3px; text-decoration: none; }
+      .brand-mark { width: 32px; height: 25px; border-radius: 9px; display: grid; place-items: center; color: white; background: linear-gradient(135deg, #ff438c, #ff845b); font-size: 13px; }
+      .top-actions { display: flex; align-items: center; gap: 10px; }
+      .button { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #ffffff20; border-radius: 12px; padding: 0 15px; color: #f7f5ff; background: #ffffff0b; font: inherit; font-size: 14px; font-weight: 700; text-decoration: none; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+      .button:hover { transform: translateY(-1px); background: #ffffff16; }
+      .button.primary { border: 0; background: linear-gradient(100deg, #ff438c, #ff8058); box-shadow: 0 8px 24px #ff5e8128; }
+      main { width: min(100% - 32px, 940px); margin: 0 auto; padding: 48px 0 70px; }
+      .intro { margin-bottom: 26px; }
+      .eyebrow { margin: 0 0 9px; color: #ff91ad; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
+      h1 { margin: 0; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -1.5px; }
+      .subtitle { margin: 11px 0 0; color: #aeb0c5; font-size: 15px; line-height: 1.6; }
+      .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 25px 0 13px; color: #b9bbcf; font-size: 13px; }
+      .toolbar strong { color: #f6f4ff; }
+      .list { display: grid; gap: 10px; }
+      .channel { display: flex; align-items: center; gap: 15px; min-width: 0; padding: 13px 15px; border: 1px solid #ffffff12; border-radius: 19px; background: linear-gradient(110deg, #ffffff0c, #ffffff06); box-shadow: 0 9px 30px #05060b20; }
+      .channel.featured { border-color: #ff659456; background: linear-gradient(105deg, #ff568b18, #ffffff08 70%); }
+      .avatar { width: 62px; height: 62px; flex: 0 0 62px; border: 1px solid #ffffff28; border-radius: 17px; background: #262838; object-fit: cover; }
+      .info { min-width: 0; flex: 1; }
+      .name-line { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+      .name { overflow: hidden; font-size: 16px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+      .tag { border-radius: 999px; padding: 4px 9px; color: #ffbdd0; background: #ff5a8c25; font-size: 10px; font-weight: 800; letter-spacing: .45px; }
+      .meta { overflow: hidden; margin-top: 6px; color: #aeb0c5; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+      .channel .button { flex: 0 0 auto; }
+      .state { padding: 28px 18px; border: 1px dashed #ffffff24; border-radius: 18px; color: #b9bbcf; text-align: center; }
+      .state h2 { margin: 0 0 8px; color: #f5f4fb; font-size: 18px; }
+      .state p { margin: 0 0 17px; line-height: 1.55; }
+      .spinner { display: inline-block; width: 17px; height: 17px; margin-right: 8px; border: 2px solid #ffffff36; border-top-color: #ff6694; border-radius: 50%; vertical-align: -4px; animation: spin .7s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .footer { margin-top: 24px; color: #74778d; font-size: 12px; line-height: 1.6; }
+      @media (max-width: 580px) {
+        .topbar { height: 60px; padding: 0 15px; }
+        main { width: min(100% - 24px, 940px); padding-top: 32px; }
+        .channel { gap: 11px; padding: 11px; border-radius: 16px; }
+        .avatar { width: 52px; height: 52px; flex-basis: 52px; border-radius: 14px; }
+        .name { max-width: 100%; font-size: 14px; }
+        .meta { font-size: 12px; }
+        .channel .button { min-height: 36px; padding: 0 10px; font-size: 12px; }
+      }
+      @media (max-width: 390px) {
+        .channel { align-items: flex-start; flex-wrap: wrap; }
+        .info { padding-top: 4px; }
+        .channel .button { margin-left: 63px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="VibeTube home"><span class="brand-mark">▶</span><span>VibeTube</span></a>
+      <div class="top-actions" id="account"><a class="button" href="/">Studio</a></div>
+    </header>
+    <main>
+      <section class="intro">
+        <p class="eyebrow">VibeTube community</p>
+        <h1>Creator directory</h1>
+        <p class="subtitle">Discover channels shared by creators in this directory. Open a channel to learn more and choose what you want to follow.</p>
+      </section>
+      <div class="toolbar"><strong id="count">Channels</strong><button class="button" id="refresh" type="button">↻ Refresh</button></div>
+      <section id="directory" class="list" aria-live="polite"><div class="state"><span class="spinner"></span>Loading creator directory…</div></section>
+      <p class="footer">Channel details are provided by YouTube. Subscribing is always your choice and happens on YouTube.</p>
+    </main>
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+      const escapeHtml = (value = "") => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+      const formatCount = (value) => Number(value || 0).toLocaleString();
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      async function loadDirectory() {
+        const list = $("#directory");
+        $("#refresh").disabled = true;
+        try {
+          let attempt = 0;
+          while (true) {
+            list.innerHTML = `<div class="state"><span class="spinner"></span>${attempt ? `Reconnecting… (attempt ${attempt + 1})` : "Loading creator directory…"}</div>`;
+            try {
+              const controller = new AbortController();
+              const timeout = setTimeout(() => controller.abort(), 20000);
+              let response;
+              try {
+                response = await fetch("/api/community/channels", { credentials: "same-origin", signal: controller.signal });
+              } finally {
+                clearTimeout(timeout);
+              }
+              let payload = {};
+              try { payload = await response.json(); } catch { /* handled below based on status */ }
+              if (response.status === 401) {
+                list.innerHTML = '<div class="state"><h2>Sign in to view the directory</h2><p>Use the Google account connected to your YouTube channel.</p><a class="button primary" href="/auth/google">Continue with Google</a></div>';
+                $("#count").textContent = "Sign in required";
+                $("#account").innerHTML = '<a class="button" href="/">Studio</a><a class="button primary" href="/auth/google">Sign in</a>';
+                return;
+              }
+              if (!response.ok) {
+                const error = new Error(payload.error?.message || "Could not connect to YouTube.");
+                error.retryable = [408, 425, 429, 500, 502, 503, 504].includes(response.status);
+                throw error;
+              }
+              const channels = payload.channels || [];
+              $("#count").textContent = `${formatCount(channels.length)} ${channels.length === 1 ? "channel" : "channels"}`;
+              if (!channels.length) {
+                list.innerHTML = '<div class="state"><h2>No channels yet</h2><p>Creator channels will appear here when they join.</p></div>';
+                return;
+              }
+              list.innerHTML = channels.map((channel) => {
+                const title = escapeHtml(channel.title || "YouTube channel");
+                const handle = escapeHtml(channel.handle || "YouTube creator");
+                const image = channel.thumbnail ? `<img class="avatar" src="${escapeHtml(channel.thumbnail)}" alt="" loading="lazy">` : '<div class="avatar" aria-hidden="true"></div>';
+                const label = channel.isFeatured ? '<span class="tag">FEATURED</span>' : "";
+                return `<article class="channel ${channel.isFeatured ? "featured" : ""}">${image}<div class="info"><div class="name-line"><span class="name">${escapeHtml(channel.position)}. ${title}</span>${label}</div><div class="meta">${handle} · ${formatCount(channel.subscribers)} subscribers</div></div><a class="button" href="${escapeHtml(channel.url)}" target="_blank" rel="noopener noreferrer">Open channel ↗</a></article>`;
+              }).join("");
+              return;
+            } catch (error) {
+              const retryable = error.retryable || error instanceof TypeError || error.name === "AbortError";
+              if (!retryable) {
+                list.innerHTML = `<div class="state"><h2>Could not load channels</h2><p>${escapeHtml(error.message)}</p><button class="button" type="button" onclick="loadDirectory()">Try again</button></div>`;
+                $("#count").textContent = "Directory unavailable";
+                return;
+              }
+              attempt += 1;
+              const delay = Math.min(1000 * (2 ** Math.min(attempt, 5)), 30000);
+              const seconds = Math.ceil(delay / 1000);
+              list.innerHTML = `<div class="state"><span class="spinner"></span><h2>Connection interrupted</h2><p>${escapeHtml(error.message || "YouTube could not be reached.")}<br>Automatic retry ${attempt} in ${seconds} seconds…</p></div>`;
+              $("#count").textContent = "Reconnecting";
+              await wait(delay);
+            }
+          }
+        } finally {
+          $("#refresh").disabled = false;
+        }
+      }
+
+      $("#refresh").addEventListener("click", loadDirectory);
+      loadDirectory();
+    </script>
+  </body>
+</html>
