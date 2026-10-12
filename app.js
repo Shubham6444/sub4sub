@@ -795,7 +795,7 @@ app.get(
     );
     const redirectUri =
       process.env.GOOGLE_REDIRECT_URI ||
-      `http://localhost:${PORT}/auth/google/callback`;
+      `https://saracontact.online:${PORT}/auth/google/callback`;
     const params = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID,
       redirect_uri: redirectUri,
@@ -828,7 +828,7 @@ app.get(
         );
     const redirectUri =
       process.env.GOOGLE_REDIRECT_URI ||
-      `http://localhost:${PORT}/auth/google/callback`;
+      `https://saracontact.online:${PORT}/auth/google/callback`;
     const body = new URLSearchParams({
       code: String(req.query.code),
       client_id: process.env.GOOGLE_CLIENT_ID,
